@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VCF QR Code Generator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>📱 Générateur de QR Code VCF</h1>
+
+        <form id="vcf-form">
+            <!-- Basic Information Section -->
+            <div class="section">
+                <h2 class="section-title">👤 Informations de base</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="firstName">Prénom *</label>
+                        <input type="text" id="firstName" name="firstName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastName">Nom *</label>
+                        <input type="text" id="lastName" name="lastName" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="organization">Organisation</label>
+                    <input type="text" id="organization" name="organization">
+                </div>
+
+                <div class="form-grid" style="margin-top: 20px;">
+                    <div class="form-group">
+                        <label for="title">Titre du poste</label>
+                        <input type="text" id="title" name="title">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="service">Service</label>
+                        <input type="text" id="service" name="service">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phone Numbers Section -->
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">📞 Numéros de téléphone</h2>
+                    <button type="button" class="add-btn" data-type="phone">+ Ajouter
+                        téléphone</button>
+                </div>
+                <div class="dynamic-fields" id="phone-fields">
+                    <div class="form-group dynamic-field">
+                        <div class="field-controls">
+                            <input type="text" class="field-type" placeholder="Libellé"
+                                value="Travail">
+                            <input type="tel" placeholder="Numéro de téléphone" class="field-input">
+                            <button type="button" class="remove-btn">×</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Email Addresses Section -->
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">📧 Adresses email</h2>
+                    <button type="button" class="add-btn" data-type="email">+ Ajouter email</button>
+                </div>
+                <div class="dynamic-fields" id="email-fields">
+                    <div class="form-group dynamic-field">
+                        <div class="field-controls">
+                            <input type="text" class="field-type" placeholder="Libellé"
+                                value="Travail">
+                            <input type="email" placeholder="Adresse email" class="field-input">
+                            <button type="button" class="remove-btn">×</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Websites Section -->
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">🌐 Sites web</h2>
+                    <button type="button" class="add-btn" data-type="website">+ Ajouter site
+                        web</button>
+                </div>
+                <div class="dynamic-fields" id="website-fields">
+                    <div class="form-group dynamic-field">
+                        <div class="field-controls">
+                            <input type="text" class="field-type" placeholder="Libellé"
+                                value="Travail">
+                            <input type="url" placeholder="https://exemple.com" class="field-input">
+                            <button type="button" class="remove-btn">×</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- Additional Information Section -->
+            <div class="section">
+                <h2 class="section-title">📍 Informations supplémentaires</h2>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="address">Adresse</label>
+                        <textarea id="address" name="address"
+                            placeholder="Adresse, Ville, État, Code postal, Pays"></textarea>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="notes">Notes</label>
+                        <textarea id="notes" name="notes"
+                            placeholder="Informations supplémentaires..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Custom Fields Section -->
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">🔧 Champs personnalisés</h2>
+                    <button type="button" class="add-btn" data-type="custom">+ Ajouter
+                        champ</button>
+                </div>
+                <div class="dynamic-fields" id="custom-fields">
+                    <div class="form-group dynamic-field">
+                        <div class="field-controls">
+                            <input type="text" class="field-type" placeholder="Nom du champ"
+                                value="">
+                            <input type="text" placeholder="Valeur" class="field-input">
+                            <button type="button" class="remove-btn">×</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="reset-btn" id="reset-btn">🔄 Réinitialiser</button>
+                <button type="submit" class="generate-btn">✨ Générer QR Code</button>
+            </div>
+        </form>
+
+        <div id="result" class="result-section">
+            <div class="download-links">
+                <a href="#" id="download-png" class="download-btn">📥 Télécharger PNG</a>
+                <a href="#" id="download-vcf" class="download-btn">📄 Télécharger VCF</a>
+            </div>
+
+            <div class="vcf-preview">
+                <h3>📋 Aperçu du contenu VCF :</h3>
+                <div class="vcf-content" id="vcf-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QR Code Modal Dialog -->
+    <div id="qr-modal" class="qr-modal">
+        <div class="qr-modal-overlay" id="qr-modal-overlay"></div>
+        <div class="qr-modal-content">
+            <div class="qr-modal-header">
+                <h3>📱 Votre QR Code</h3>
+                <button class="qr-modal-close" id="qr-modal-close">×</button>
+            </div>
+            <div class="qr-code" id="qr-code"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
